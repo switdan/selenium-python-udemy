@@ -9,31 +9,32 @@ driver = webdriver.Chrome()
 
 # Go to webpage
 driver.get("https://practicetestautomation.com/practice-test-login/")
-time.sleep(5)
 
 
 # Type username student into Username field
 username_locator = driver.find_element(By.ID, "username")
+username_locator.send_keys("student")
 
 
 # Type password Password123 into Password field
 password_locator = driver.find_element(By.ID, "password")
+password_locator.send_keys("Password123")
 
 
 # Push Submit button
 submit_btn_locator = driver.find_element(By.ID, "submit")
-
-
-# Verify new page URL contains practicetestautomation.com/logged-in-successfully/
-
+submit_btn_locator.click()
 
 # Verify new page URL contains practicetestautomation.com/logged-in-successfully/
-logged_title_locator = driver.find_element(By.TAG_NAME, "h1")
-
+time.sleep(2)
+actual_url = driver.current_url
+assert actual_url == "https://practicetestautomation.com/logged-in-successfully/"
 
 # Verify new page contains expected text ('Congratulations' or 'successfully logged in')
-logged_message_locator = driver.find_element(By.XPATH, "//p[@class='has-text-align-center']")
-
+logged_title_locator = driver.find_element(By.TAG_NAME, "h1")
+actual_title = logged_title_locator.text
+assert actual_title == "Logged In Successfully"
 
 # Verify button Log out is displayed on the new page
 logout_btn_locator = driver.find_element(By.LINK_TEXT, "Log out")
+assert logout_btn_locator.is_displayed()
