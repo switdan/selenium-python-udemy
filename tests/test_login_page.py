@@ -48,7 +48,7 @@ class TestNegativeScenarios:
 
     @pytest.mark.login
     @pytest.mark.negative
-    def test_login_page(self):
+    def test_login_page_incorrect_username(self):
         driver = webdriver.Chrome()
 
         # Go to webpage
@@ -73,6 +73,36 @@ class TestNegativeScenarios:
 
         # Verify error message text is Your username is invalid!
         red_banner_message = red_banner.text
-        assert red_banner_message == "Your username is invalid1!", "Treść czerwonego baneru się nie zgadza."
+        assert red_banner_message == "Your username is invalid!", "Treść czerwonego baneru się nie zgadza."
+
+
+    @pytest.mark.login
+    @pytest.mark.negative
+    def test_login_page_incorrect_password(self):
+        driver = webdriver.Chrome()
+
+        # Go to webpage
+        driver.get("https://practicetestautomation.com/practice-test-login/")
+
+        # Type username student into Username field
+        username_locator = driver.find_element(By.ID, "username")
+        username_locator.send_keys("student")
+
+        # Type password incorrectPassword into Password field
+        password_locator = driver.find_element(By.ID, "password")
+        password_locator.send_keys("incorrectPassword")
+
+        # Push Submit button
+        submit_btn_locator = driver.find_element(By.ID, "submit")
+        submit_btn_locator.click()
+
+        # Verify error message is displayed
+        time.sleep(2)
+        red_banner = driver.find_element(By.ID, "error")
+        assert red_banner.is_displayed(), "Powinien pojawić się czerwony baner!"
+
+        # Verify error message text is Your password is invalid!
+        red_banner_message = red_banner.text
+        assert red_banner_message == "Your password is invalid!"
 
 
