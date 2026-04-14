@@ -5,8 +5,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 
-
-
 class TestPositiveScenarios:
 
     @pytest.mark.login
@@ -45,3 +43,36 @@ class TestPositiveScenarios:
         # Verify button Log out is displayed on the new page
         logout_btn_locator = driver.find_element(By.LINK_TEXT, "Log out")
         assert logout_btn_locator.is_displayed()
+
+class TestNegativeScenarios:
+
+    @pytest.mark.login
+    @pytest.mark.negative
+    def test_login_page(self):
+        driver = webdriver.Chrome()
+
+        # Go to webpage
+        driver.get("https://practicetestautomation.com/practice-test-login/")
+
+        # Type username incorrectUser into Username field
+        username_locator = driver.find_element(By.ID, "username")
+        username_locator.send_keys("incorrectUser")
+
+        # Type password Password123 into Password field
+        password_locator = driver.find_element(By.ID, "password")
+        password_locator.send_keys("Password123")
+
+        # Push Submit button
+        submit_btn_locator = driver.find_element(By.ID, "submit")
+        submit_btn_locator.click()
+
+        # Verify error message is displayed
+        time.sleep(2)
+        red_banner = driver.find_element(By.ID, "error")
+        assert red_banner.is_displayed(), "Powinien pojawić się czerwony baner!"
+
+        # Verify error message text is Your username is invalid!
+        red_banner_message = red_banner.text
+        assert red_banner_message == "Your username is invalid1!", "Treść czerwonego baneru się nie zgadza."
+
+
