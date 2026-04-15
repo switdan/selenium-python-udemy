@@ -12,6 +12,7 @@ def driver(request):
         my_driver = webdriver.Firefox()
     else:
         raise Exception(f"Invalid browser. Expected 'chrome' or 'firefox', but got {browser}")
+    my_driver.implicitly_wait(10)
     yield my_driver
     print(f"Closing {browser} driver.")
     my_driver.quit()

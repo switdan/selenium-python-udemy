@@ -28,7 +28,6 @@ class TestPositiveScenarios:
         submit_btn_locator.click()
 
         # Verify new page URL contains practicetestautomation.com/logged-in-successfully/
-        time.sleep(2)
         actual_url = driver.current_url
         assert actual_url == "https://practicetestautomation.com/logged-in-successfully/"
 
