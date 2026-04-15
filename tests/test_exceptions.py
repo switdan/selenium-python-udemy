@@ -68,7 +68,6 @@ class TestExceptions:
         assert confirmation_element.text == "Row 1 was saved", "Confirmation message is wrong"
 
     @pytest.mark.exceptions
-    @pytest.mark.debug
     def test_stale_element_reference_exception(self, driver):
         # Open page
         driver.get("https://practicetestautomation.com/practice-test-exceptions/")
@@ -84,3 +83,21 @@ class TestExceptions:
         # Verify instruction text element is no longer displayed
         wait = WebDriverWait(driver, 3)
         assert wait.until(ec.invisibility_of_element_located((By.ID, "instructions"))), "Instructions element is displays, but it should not be"
+
+    @pytest.mark.exceptions
+    @pytest.mark.debug
+    def test_timeout_exception(self, driver):
+        # Open page
+        driver.get("https://practicetestautomation.com/practice-test-exceptions/")
+
+        # Click Add button
+        add_btn_locator = driver.find_element(By.ID, "add_btn")
+        add_btn_locator.click()
+
+
+        # Wait for 3 seconds for the second input field to be displayed
+        wait = WebDriverWait(driver, 6)
+        row2_input_locator = wait.until(ec.presence_of_element_located((By.XPATH, "//div[@id='row2']/input")))
+
+        # Verify second input field is displayed
+        assert row2_input_locator.is_displayed(), "Row 2 input is not displayed"
