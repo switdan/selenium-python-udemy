@@ -1,14 +1,16 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
+from page_objects.base_page import BasePage
 
-class LoggedInPage:
+
+class LoggedInPage(BasePage):
     __url = "https://practicetestautomation.com/logged-in-successfully/"
     __logged_title = (By.TAG_NAME, "h1")
     __logout_btn = (By.LINK_TEXT, "Log out")
 
     def __init__(self, driver: WebDriver):
-        self._driver = driver
+        super().__init__(driver)
 
     @property
     def expected_url(self) -> str:
@@ -16,8 +18,8 @@ class LoggedInPage:
 
     @property
     def header(self) -> str:
-        return self._driver.find_element(self.__logged_title).text
+        return super()._get_text(self.__logged_title)
 
     @property
     def log_out_btn_displayed(self) -> bool:
-        return self._driver.find_element(self. __logout_btn).is_displayed()
+        return self.is_displayed(self.__logout_btn)

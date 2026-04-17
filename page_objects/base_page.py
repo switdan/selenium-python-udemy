@@ -37,3 +37,7 @@ class BasePage:
 
     def open_url(self, url: str) -> None:
         self._driver.get(url)
+
+    def _get_text(self, locator: tuple, time: int = 10) -> str:
+        self._wait_until_element_is_visible(locator, time)
+        return self._find(locator).text
