@@ -22,4 +22,4 @@ class LoggedInPage(BasePage):
 
     @property
     def log_out_btn_displayed(self) -> bool:
-        return self.is_displayed(self.__logout_btn)
+        return self._is_displayed(self.__logout_btn)
