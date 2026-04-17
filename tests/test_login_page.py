@@ -1,7 +1,4 @@
-import time
-
 import pytest
-from selenium.webdriver.common.by import By
 
 from page_objects.logged_in_page import LoggedInPage
 from page_objects.login_page import LoginPage
@@ -31,28 +28,11 @@ class TestNegativeScenarios:
                             [("incorrectUser", "Password123", "Your username is invalid!"),
                             ("student", "incorrectPassword", "Your password is invalid!")])
     def test_negative_login(self, driver, username, password, expected_error_message):
-        # Go to webpage
-        driver.get("https://practicetestautomation.com/practice-test-login/")
+        login_page = LoginPage(driver)
 
-        # Type username incorrectUser into Username field
-        username_locator = driver.find_element(By.ID, "username")
-        username_locator.send_keys(username)
+        login_page.open()
+        login_page.execute_login(username, password)
 
-        # Type password Password123 into Password field
-        password_locator = driver.find_element(By.ID, "password")
-        password_locator.send_keys(password)
-
-        # Push Submit button
-        submit_btn_locator = driver.find_element(By.ID, "submit")
-        submit_btn_locator.click()
-
-        # Verify error message is displayed
-        time.sleep(2)
-        red_banner = driver.find_element(By.ID, "error")
-        assert red_banner._is_displayed(), "Powinien pojawić się czerwony baner!"
-
-        # Verify error message text is Your username is invalid!
-        red_banner_message = red_banner.text
-        assert red_banner_message == expected_error_message, "Treść czerwonego baneru się nie zgadza."
+        assert login_page.red_banner_msg == expected_error_message, "Red Banner message is not the same as expected message!"
 
 

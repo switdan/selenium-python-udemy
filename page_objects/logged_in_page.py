@@ -9,6 +9,7 @@ class LoggedInPage(BasePage):
     __logged_title = (By.TAG_NAME, "h1")
     __logout_btn = (By.LINK_TEXT, "Log out")
 
+
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
 
@@ -23,3 +24,4 @@ class LoggedInPage(BasePage):
     @property
     def log_out_btn_displayed(self) -> bool:
         return self._is_displayed(self.__logout_btn)
+
