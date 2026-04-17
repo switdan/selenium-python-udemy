@@ -31,6 +31,7 @@ class BasePage:
 
     def _is_displayed(self, locator: tuple) -> bool:
         try:
+            self._wait_until_element_is_visible(locator)
             return self._find(locator).is_displayed()
         except NoSuchElementException:
             return False
@@ -41,3 +42,11 @@ class BasePage:
     def _get_text(self, locator: tuple, time: int = 10) -> str:
         self._wait_until_element_is_visible(locator, time)
         return self._find(locator).text
+
+    def _clear(self, locator: tuple, time: int = 10):
+        self._wait_until_element_is_visible(locator, time)
+        self._find(locator).clear()
+
+    def _element_hidden(self, locator: tuple):
+        wait = WebDriverWait(self._driver, 3)
+        return wait.until(ec.invisibility_of_element_located(locator))
