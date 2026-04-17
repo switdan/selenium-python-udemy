@@ -11,10 +11,6 @@ class LoggedInPage:
         self._driver = driver
 
     @property
-    def current_url(self) -> str:
-        return self._driver.current_url
-
-    @property
     def expected_url(self) -> str:
         return self.__url
 
